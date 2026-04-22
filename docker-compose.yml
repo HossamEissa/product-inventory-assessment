@@ -1,0 +1,37 @@
+services:
+    inventory-app:
+        build: .
+        volumes:
+          - .:/var/www/html
+        depends_on:
+            - postgres
+            - redis
+
+    nginx:
+        image: nginx:stable-alpine
+        container_name: inventory-app-nginx
+        ports:
+          - "80:80"
+        volumes:
+           - .:/var/www/html
+           - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            -   inventory-app
+
+    redis:
+        image: redis:alpine
+        container_name: inventory-app-redis
+
+    postgres:
+        image: postgres:15
+        container_name: inventory-app-postgres
+        restart: always
+        volumes:
+            - postgres-db:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: product-inventory
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: password
+
+volumes:
+    postgres-db:
