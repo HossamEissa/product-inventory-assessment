@@ -57,6 +57,12 @@ docker exec -it inventory-app php artisan test
 ```bash
 docker compose up -d --scale inventory-app=3
 ```
+---
+
+## API Documentation
+
+Full API documentation is available on Postman:
+[View Postman Collection](https://documenter.getpostman.com/view/25142654/2sBXqFMNMu)
 
 ---
 ## Access Application
